@@ -1,9 +1,11 @@
 
-var gameOver = false;
+var isAnswerScreen = false;
 var gameStart = false;
 $("#start-screen").on("click", function () {
-    if (gameOver == false && gameStart ==false) {
+    if ( gameStart ==false) {
         gameStart = true;
+        correctGuesses = 0;
+        incorrectGuesses = 0;
         nextQuestion();
         $("#start-screen").css('display', 'none');
     }
@@ -25,15 +27,20 @@ $("#start-screen").on("click", function () {
         var timeLeft = 6;
         var userChoice = false;
         var questionNumber = -1;
-        var answerTimeLeft = 6;
+        var answerTimeLeft = 4;
         var timerId = 1;
         var answerTimerId = 1;
+        var choice1 = "";
+        var choice2 = "";
+        var choice3 = "";
+        var choice4 = "";
 
 
         function timer() {
             timeLeft--;
             $(".time-left").text(timeLeft + " seconds remaining.");
-            if (timeLeft == 0 || userChoice == true) {
+            if (timeLeft == 0 ) {
+                incorrectGuesses ++;
                 answerTimerId = setInterval(answerScreen, 1000);
                 console.log(timeLeft, answerTimeLeft)
             }
@@ -42,14 +49,16 @@ $("#start-screen").on("click", function () {
 
 
         function nextQuestion() {
+            isAnswerScreen = false;
             clearInterval(answerTimerId);
             questionNumber++;
             console.log("made it to next question" + questionNumber);
             if (questionNumber < (questionBank.length)) {
-                answerTimeLeft = 6;
+                answerTimeLeft = 4;
 
                 $(".question").text(questionBank[questionNumber].question);
                 $(".answer1").text(questionBank[questionNumber].correctAnswer);
+                choice1 = questionBank[questionNumber].correctAnswer;
                 $(".answer2").text(questionBank[questionNumber].wrongAnswer1);
                 $(".answer3").text(questionBank[questionNumber].wrongAnswer2);
                 $(".answer4").text(questionBank[questionNumber].wrongAnswer3);
@@ -62,6 +71,7 @@ $("#start-screen").on("click", function () {
         }
 
         function answerScreen() {
+            isAnswerScreen = true;
             if (answerTimeLeft == 0) {
                 console.log(timeLeft, answerTimeLeft)
                 nextQuestion();
@@ -78,18 +88,70 @@ $("#start-screen").on("click", function () {
             }
         }
 
+$('.answer1').on("click", function(){
+ if (gameStart == true && isAnswerScreen == false){
+     isAnswerScreen = true;
+     if  (choice1 == questionBank[questionNumber].correctAnswer){
+         correctGuesses ++;
+         answerTimerId = setInterval(answerScreen, 1000);
+     } else {
+         incorrectGuesses ++;
+         answerTimerId = setInterval(answerScreen, 1000);
+     }
 
+ }   
+})
+$('.answer2').on("click", function(){
+    if (gameStart == true && isAnswerScreen == false){
+        isAnswerScreen = true;
+        if  (choice2 == questionBank[questionNumber].correctAnswer){
+            correctGuesses ++;
+            answerTimerId = setInterval(answerScreen, 1000);
+        } else {
+            incorrectGuesses ++;
+            answerTimerId = setInterval(answerScreen, 1000);
+        }
+   
+    }   
+   })
+   $('.answer3').on("click", function(){
+    if (gameStart == true && isAnswerScreen == false){
+        isAnswerScreen = true;
+        if  (choice3 == questionBank[questionNumber].correctAnswer){
+            correctGuesses ++;
+            answerTimerId = setInterval(answerScreen, 1000);
+        } else {
+            incorrectGuesses ++;
+            answerTimerId = setInterval(answerScreen, 1000);
+        }
+   
+    }   
+   })
+   $('.answer4').on("click", function(){
+    if (gameStart == true && isAnswerScreen == false){
+        isAnswerScreen = true;
+        if  (choice4 == questionBank[questionNumber].correctAnswer){
+            correctGuesses ++;
+            answerTimerId = setInterval(answerScreen, 1000);
+        } else {
+            incorrectGuesses ++;
+            answerTimerId = setInterval(answerScreen, 1000);
+        }
+   
+    }   
+   })
         function quizEnd() {
             console.log("quiz end is running");
             $('.question').text("Time's up! You answered" + correctGuesses + " questions correctly and " + incorrectGuesses + "incorrectly. Try again?");
+            $("#start-screen").css('display', 'inline-block');
             gameStart = false;
-            gameOver = true;
             timeLeft = 6;
             userChoice = false;
             questionNumber = -1;
-            answerTimeLeft = 6;
+            answerTimeLeft = 4;
             timerId = 1;
             answerTimerId = 1;
+            isAnswerScreen = false;
 
         }
  
