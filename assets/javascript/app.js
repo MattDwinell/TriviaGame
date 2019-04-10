@@ -186,6 +186,7 @@
 
 //starting new code attempt here:
 $(document).ready(function () {
+
     //the below array will hold all of the question objects to cycle through
     let questions = [];
 
@@ -227,12 +228,27 @@ $(document).ready(function () {
     }
 
     //creating the questions by passing their inputs into the questions template.
-    var question1 = new question("This is the first question", "oh look the right answer", "wrong answer 1", "wrong answer 2", "third wrong answer");
+    //I wonder if there's a way to streamline this more, such as running a for loop to push the questions? the syntax eludes me
+    var question1 = new question("Who is just the worst in Star Wars?", "Jar Jar Binks", "Darth Vader", "Money", "Emperor Palpatine");
     questions.push(question1);
-    var question2 = new question("2nd question baby", "da right answer", "da wrong answer", "d'another wrong answer", "da last wrong answer");
+    var question2 = new question("What happened to Timothy Leary's ashes?", "They were launched into space on a rocket.", "They were baked into brownies nicknamed 'space-base", "He was buried, not cremated.", "Who's Timothy Leary?");
     questions.push(question2);
-    var question3 = new question("who is awesome?", "me", "you", "the icecream man", "anyone who is not an icecream man");
+    var question3 = new question("who is awesome?", "anyone who is not the icecream man", "you", "the icecream man", "me");
     questions.push(question3);
+    var question4 = new question("What is a parsec?", "a unit of distance equal to 3.26 light-years.", "a type of fruit", "the distance light travels in a second", "what the icecream man tries to sell to unsuspecting children");
+    questions.push(question4);
+    var question5 = new question("Who coined the term 'string theory'?", "Gabriele Veneziano", "Einstein", "Alred Wauss", "Pedro Flores");
+    questions.push(question5);
+    var question6 = new question("Which of the following problems have remained unsolved in modern physics?", "The Three body problem", "Kepler's fourth law", "the icecream man", "Okham's dilemma");
+    questions.push(question6);
+    var question7 = new question("is light a particle, or a wave?", "light can be both particle and wave.", "particle only", "wave, only", "neither particle, nor wave, but icecream man");
+    questions.push(question7);
+    var question8 = new question("Which of the following bands does NOT have a concept album about animals from space flying through the multiverse?", "Archspire", "Wurmed", "Slugdge", "Gojira");
+    questions.push(question8);
+    var question9 = new question("How long can humans survive in a vacuum?", "90 seconds if you don't hold your breath before losing consciousness", "twenty seconds, then your blood boils away", "five minutes or so, because princess leia did it in the last jedi.", "about two minutes, as long as you hold your breath");
+    questions.push(question9);
+    var question10 = new question("Which of the following animals can survive in the vacuum of space for over 12 hours?", "Water Bears", "Squirrels", "starfish", "jellyfish");
+    questions.push(question10);
 
     //globally declaring some variables to be changed/accessed within functions.
     var choice1 = "";
@@ -249,6 +265,7 @@ $(document).ready(function () {
     var correctGuesses = 0;
     var questionNumber = 0;
     var answerPlaceHolders = [$(".answer1"), $(".answer2"), $(".answer3"), $(".answer4")];
+    var gifCount = 0;
 
     //timer function
     function timer() {
@@ -339,23 +356,29 @@ $(document).ready(function () {
         })
     }
 
-    //playing around with pulling gifs from apis, trying to generate a random space-themed gif at the start of each question.
+    //playing around with pulling gifs from apis, this will generate a random space gif underneath the trivia game at every new question.
+    //I've limited it to running 42 times because after that giphy says I've used it too much. if the script tries to execute and 
+    // cannot pull a gif, then this would crash the program. it would be cool if I could set some sort of variable external to the script entirely for this, so that if people reset the page, it would still remain at the proper count to prevent crashes from repeated plays/refreshes.
     function gifGenerator() {
-        var queryURL = "https://api.giphy.com/v1/gifs/random?apikey=ZyUXN606XVdEZHZ5sk3RWjOKSzOOFOyk&tag=space";
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function (response) {
-           
-            var newGif = document.createElement("img");
-            newGif.src = response.data.images.original.url;
-            newGif.style.width = "200px";
-            newGif.style.height = "auto";
-            $(".gif-holder").html(newGif); 
-        });
+        gifCount++;
+        if (gifCount < 42) {
+            var queryURL = "https://api.giphy.com/v1/gifs/random?apikey=ZyUXN606XVdEZHZ5sk3RWjOKSzOOFOyk&tag=space";
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) {
+
+                // alternatively I could have pre-created the element in html and styled it, then just changed the src url, but I wanted to make a new element to practice for next week's homework.
+
+                var newGif = document.createElement("img");
+                newGif.src = response.data.images.original.url;
+                newGif.style.width = "200px";
+                newGif.style.height = "auto";
+                $(".gif-holder").html(newGif);
+            });
+        }
     }
 
 })
 
-// ZyUXN606XVdEZHZ5sk3RWjOKSzOOFOyk
-var queryUrl = "https://api.giphy.com/v1/gifs/random?apikey=ZyUXN606XVdEZHZ5sk3RWjOKSzOOFOyk&tag=space";
+// api key for this project: ZyUXN606XVdEZHZ5sk3RWjOKSzOOFOyk
