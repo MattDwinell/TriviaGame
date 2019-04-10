@@ -65,3 +65,10 @@
   .answer1, .answer2, .answer3, .answer4{
       height:120px;
   }
+  .gif-generator{
+      margin: 0 auto;
+
+  }
+  .gif-container{
+      text-align:center;
+  }

@@ -185,7 +185,7 @@
 
 
 //starting new code attempt here:
-$(document).ready(function() {
+$(document).ready(function () {
     //the below array will hold all of the question objects to cycle through
     let questions = [];
 
@@ -210,23 +210,20 @@ $(document).ready(function() {
             var randNum = [0, 1, 2, 3];
             var tempId = 0;
             for (var i = 0; i < 4; i++) {
-
                 tempId = Math.floor(Math.random() * randNum.length);
                 choices[i] = answerBank[tempId];
                 randNum.splice(tempId, 1);
                 answerBank.splice(tempId, 1);
                 answerPlaceHolders[0].text(choices[i]);
                 answerPlaceHolders.splice(0, 1);
-
             }
             //the populate function will also start the timer after propogating the answer choices. By running timer immediately, the user
             //will see the time left immediately rather than after a one second delay. the user may see a split second where the time goes from 
             //10 to 9 or whatever, I will try and think of a way to clear up the messy looking start after the rest of the script works.
             timer();
+            gifGenerator();
             timerId = setInterval(timer, 1000);
-
         }
-
     }
 
     //creating the questions by passing their inputs into the questions template.
@@ -267,8 +264,6 @@ $(document).ready(function() {
             //again by immediately running answer screen, the user will see the time reset but may notice the time shifting from 7-6. still thinking of a workaround for the shift.
             answerScreen();
             answerTimerId = setInterval(answerScreen, 1000);
-
-
         }
     }
     // answer screen function. the isanswerscreen variable merely exists to stop the user from being able to cause on click events during answer screen.
@@ -305,11 +300,9 @@ $(document).ready(function() {
         $('.answer1').text("");
         $('.answer2').text("");
         gameStart = false;
-
         questionNumber = 0;
         timerId = 1;
         answerTimerId = 1;
-
     }
 
     //gamestart function. note that you can only start the quiz once. any target could be used here, rather than start screen.
@@ -345,4 +338,24 @@ $(document).ready(function() {
             }
         })
     }
+
+    //playing around with pulling gifs from apis, trying to generate a random space-themed gif at the start of each question.
+    function gifGenerator() {
+        var queryURL = "https://api.giphy.com/v1/gifs/random?apikey=ZyUXN606XVdEZHZ5sk3RWjOKSzOOFOyk&tag=space";
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+           
+            var newGif = document.createElement("img");
+            newGif.src = response.data.images.original.url;
+            newGif.style.width = "200px";
+            newGif.style.height = "auto";
+            $(".gif-holder").html(newGif); 
+        });
+    }
+
 })
+
+// ZyUXN606XVdEZHZ5sk3RWjOKSzOOFOyk
+var queryUrl = "https://api.giphy.com/v1/gifs/random?apikey=ZyUXN606XVdEZHZ5sk3RWjOKSzOOFOyk&tag=space";
