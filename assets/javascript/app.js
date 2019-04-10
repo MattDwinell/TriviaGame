@@ -260,7 +260,7 @@ $(document).ready(function () {
     var timerId = "";
     var answerTimerId = "";
     var isAnswerScreen = false;
-    var timeLeft = 11;
+    var timeLeft = 30;
     var incorrectGuesses = 0;
     var correctGuesses = 0;
     var questionNumber = 0;
@@ -297,7 +297,7 @@ $(document).ready(function () {
         //if it hasn't, it calls the populate function on the next question in the list.
         if (timeLeft == 0) {
             clearInterval(answerTimerId);
-            timeLeft = 11;
+            timeLeft = 30;
             questionNumber++;
             isAnswerScreen = false;
             if (questionNumber == questions.length) {
@@ -362,7 +362,7 @@ $(document).ready(function () {
     function gifGenerator() {
         gifCount++;
         if (gifCount < 42) {
-            var queryURL = "https://api.giphy.com/v1/gifs/random?apikey=ZyUXN606XVdEZHZ5sk3RWjOKSzOOFOyk&tag=space";
+            var queryURL = "https://api.giphy.com/v1/gifs/random?apikey=ZyUXN606XVdEZHZ5sk3RWjOKSzOOFOyk&tag=starwars";
             $.ajax({
                 url: queryURL,
                 method: "GET"
